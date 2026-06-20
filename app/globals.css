@@ -1948,14 +1948,20 @@ section{
     .about{
         gap:26px;
         text-align:left;
+        grid-template-columns:1fr;
+        grid-template-areas:
+            "about-image"
+            "about-content";
     }
 
     .about-image{
         order:1;
+        grid-area:about-image;
     }
 
     .about-content{
         order:2;
+        grid-area:about-content;
     }
 
     .about-image img{
