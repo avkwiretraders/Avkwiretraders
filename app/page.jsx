@@ -116,7 +116,7 @@ Additional Requirements:
 ${message || "-"}`;
 
     window.open(
-      `https://wa.me/919600410089?text=${encodeURIComponent(whatsappMessage)}`,
+      `https://wa.me/919585844459?text=${encodeURIComponent(whatsappMessage)}`,
       "_blank"
     );
   };
@@ -381,10 +381,10 @@ ${message || "-"}`;
         </div>
       </footer>
 
-      <a href="https://wa.me/919600410089" className="whatsapp-float" target="_blank" rel="noreferrer">
+      <a href="https://wa.me/919585844459" className="whatsapp-float" target="_blank" rel="noreferrer">
         <i className="fab fa-whatsapp" />
       </a>
-      <a href="tel:+919600410089" className="call-float">
+      <a href="tel:+919585844459" className="call-float">
         <i className="fas fa-phone" />
       </a>
       <button
