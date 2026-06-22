@@ -280,6 +280,8 @@ ${message || "-"}`;
               <option>Barbed Wire Fence</option>
               <option>Farm Fencing</option>
               <option>Security Fencing</option>
+              <option>Weld Mesh Fence</option>
+              <option>Others</option>
             </select>
             <input name="length" type="number" placeholder="Approximate Length (Feet)" />
             <textarea name="message" rows="5" placeholder="Additional Requirements" />
