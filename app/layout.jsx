@@ -4,13 +4,13 @@ const siteUrl = "https://www.avkwiretraders.in";
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
-  title: "AVK Wire Trades - Fencing in Rajapalayam",
+  title: "AVK Wire Traders | Trusted Fencing Contractor in Rajapalayam",
   description:
-    "AVK Wire Trades provides high-quality fencing solutions in Rajapalayam. Trusted for durable and affordable wire fencing services.",
+    "Premium chain link, weld mesh, barbed wire fencing and installation services in Rajapalayam and South Tamil Nadu.",
   keywords: [
     "fencing in Rajapalayam",
     "wire fencing Rajapalayam",
-    "AVK Wire Trades",
+    "AVK Wire Traders",
     "chain link fencing",
     "barbed wire fencing",
     "fencing services Tamil Nadu",
