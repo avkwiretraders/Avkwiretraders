@@ -41,7 +41,7 @@ export const metadata = {
       "AVK Wire Trades provides high-quality fencing solutions in Rajapalayam. Trusted for durable and affordable wire fencing services.",
   },
   icons: {
-    icon: [{ url: "/icon.png", type: "image/png", sizes: "512x512" }],
+    icon: [{ url: "/icon.png", type: "image/png", sizes: "144x144" }],
     apple: [{ url: "/apple-icon.png", sizes: "180x180" }],
   },
 };
