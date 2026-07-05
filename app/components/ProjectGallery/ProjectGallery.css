@@ -1,7 +1,15 @@
 .project-section{
-    padding:100px 8%;
+    padding:80px 8%;
     background:#16110f;
     color:#fff;
+}
+
+@media(max-width:768px){
+
+.project-section{
+    padding:45px 16px;
+}
+
 }
 
 .project-header{
@@ -59,22 +67,47 @@
     position: relative;
     width: 100%;
     max-width: 1100px;
-    height: 620px;   /* 16:9 for 1100px width */
-    margin: 35px auto 20px;
-    border-radius: 22px;
-    overflow: hidden;
-    box-shadow: 0 20px 50px rgba(0,0,0,.45);
-    overflow:hidden;
+
+    height:620px;
+
+    margin:35px auto 20px;
     border-radius:22px;
+    overflow:hidden;
+}
+
+@media (max-width:768px){
+
+.image-overlay{
+    left:14px;
+    right:14px;
+    bottom:14px;
+    padding:14px 16px;
+    border-radius:16px;
+}
+
+.image-overlay h3{
+    font-size:24px;
+    font-weight:700;
+    line-height:1.15;
+    margin-bottom:6px;
+}
+
+.image-overlay p{
+    font-size:15px;
+    margin-top:4px;
+}
+
 }
 
 .featured-image img{
     width:100%;
     height:100%;
     object-fit:cover;
+    object-position:center;
     display:block;
     transition:transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
     will-change:transform;
+    background:#15100d;
 }
 
 .featured-image img:hover{
@@ -122,7 +155,28 @@
 
     border:3px solid transparent;
 }
+@media(max-width:768px){
 
+.thumb{
+
+width:82px;
+height:58px;
+
+}
+
+.thumbnail-wrapper{
+
+margin-top:14px;
+
+}
+
+.thumbnail-row{
+
+gap:10px;
+
+}
+
+}
 .thumb:hover{
 
     opacity:1;
@@ -145,7 +199,28 @@
 
     transition:.3s;
 }
+@media(max-width:768px){
 
+.project-header{
+
+margin-bottom:20px;
+
+}
+
+.project-header h2{
+
+font-size:26px;
+line-height:1.2;
+
+}
+
+.project-header p{
+
+font-size:14px;
+
+}
+
+}
 .thumb-arrow:hover{
     background:#d8b79b;
     color:#111;
@@ -378,13 +453,44 @@ border-color:#d8b79b;
 }
 @media (max-width:768px){
 
-    .thumb-arrow{
-        display:none;
-    }
+.featured-image{
+    width:100%;
+    height:420px;
+    max-width:none;
+    margin:18px auto;
+    border-radius:18px;
+    overflow:hidden;
+}
 
-    .thumbnail-row{
-        overflow-x:auto;
-        -webkit-overflow-scrolling:touch;
-    }
+.featured-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center;
+}
 
+.image-overlay{
+    left:16px;
+    right:16px;
+    bottom:16px;
+    padding:16px;
+}
+
+.image-overlay h3{
+    font-size:18px;
+}
+
+.image-overlay p{
+    font-size:16px;
+}
+
+}
+
+.thumbnail-wrapper{
+    margin-top:12px;
+}
+
+.thumb{
+    width:90px;
+    height:65px;
 }

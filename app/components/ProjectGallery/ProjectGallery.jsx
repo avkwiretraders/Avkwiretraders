@@ -17,6 +17,7 @@ export default function ProjectGallery() {
     const [paused, setPaused] = useState(false);
     const [fade, setFade] = useState(true);
     const thumbRef = useRef(null);
+    const touchStartX = useRef(0);
 
 useEffect(() => {
 
@@ -26,7 +27,7 @@ useEffect(() => {
 
         nextImage();
 
-    }, 4000);
+    }, 8000);
 
     return () => clearInterval(interval);
 
@@ -136,6 +137,16 @@ const prevImage = () => {
     className="featured-image"
     onMouseEnter={() => setPaused(true)}
     onMouseLeave={() => setPaused(false)}
+    onTouchStart={(e) => {
+        touchStartX.current = e.touches[0].clientX;
+    }}
+    onTouchEnd={(e) => {
+        const diff =
+            touchStartX.current - e.changedTouches[0].clientX;
+
+        if (diff > 60) nextImage();
+        if (diff < -60) prevImage();
+    }}
 >
 
     <button

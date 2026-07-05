@@ -836,7 +836,25 @@ body{
    PROJECT SHOWCASE
 ========================== */
 
+@media(max-width:768px){
 
+    body{
+        overflow-x:hidden;
+    }
+
+    .navbar{
+        min-height:64px;
+        padding:12px 5%;
+    }
+
+    .hero{
+        height:auto;
+        min-height:100svh;
+        padding:112px 5% 58px;
+        align-items:center;
+    }
+
+}
 
 /* ==========================
    STATISTICS SECTION
