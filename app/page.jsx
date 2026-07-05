@@ -19,17 +19,17 @@ const fenceTypes = [
 ];
 
 const projects = [
-  ["/images/p1.jpeg", "Industrial Fencing", "Coimbatore"],
-  ["/images/p2.jpeg", "Farm Fencing", "Tiruppur"],
-  ["/images/p3.jpeg", "Security Fencing", "Erode"],
-  ["/images/p4.jpeg", "Residential Fencing", "Coimbatore"],
-  ["/images/p5.jpeg", "Residential Fencing", "Coimbatore"],
+  ["/images/p1.jpeg", "Industrial Fencing", "Tirunelveli"],
+  ["/images/p2.jpeg", "Farm Fencing", "Rajapalayam"],
+  ["/images/p3.jpeg", "Security Fencing", "Sivagangai"],
+  ["/images/p4.jpeg", "Residential Fencing", "Rajapalayam"],
+  ["/images/p5.jpeg", "Weld Mess Fencing", "Tenkasi"],
 ];
 
 const stats = [
   [350, "Projects Completed"],
   [1000, "Happy Clients"],
-  [15, "Years Experience"],
+  [14, "Years Experience"],
   [25, "Service Areas"],
 ];
 
