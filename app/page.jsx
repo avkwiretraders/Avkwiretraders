@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
+import ProjectGallery from "./components/ProjectGallery/ProjectGallery";
 const services = [
   ["fas fa-link", "Chain Link Fencing", "Strong and cost-effective fencing solutions for residential and industrial properties."],
   ["fas fa-shield", "Weld Mesh Fencing", "High-strength welded mesh fencing offering excellent visibility, security and long-term durability."],
@@ -16,14 +16,6 @@ const fenceTypes = [
   ["/images/Barbed-Wire.png", "Barbed Wire Fence"],
   ["/images/Weldmess.png", "Weld Mesh Fencing"],
   ["/images/gate-Fixing.jpeg", "Gate Fixing"],
-];
-
-const projects = [
-  ["/images/p1.jpeg", "Industrial Fencing", "Tirunelveli"],
-  ["/images/p2.jpeg", "Farm Fencing", "Rajapalayam"],
-  ["/images/p3.jpeg", "Security Fencing", "Sivagangai"],
-  ["/images/p4.jpeg", "Residential Fencing", "Rajapalayam"],
-  ["/images/p5.jpeg", "Weld Mess Fencing", "Tenkasi"],
 ];
 
 const stats = [
@@ -54,18 +46,9 @@ const whyUs = [
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [slideIndex, setSlideIndex] = useState(0);
   const [showTop, setShowTop] = useState(false);
   const [counts, setCounts] = useState(stats.map(() => 0));
   const year = new Date().getFullYear();
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setSlideIndex((current) => (current + 1) % projects.length);
-    }, 4000);
-
-    return () => clearInterval(timer);
-  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -235,22 +218,7 @@ ${message || "-"}`;
           ))}
         </div>
       </section>
-
-      <section id="projects" className="project-showcase">
-        <SectionHeader tag="OUR PROJECTS" title="Completed Projects" />
-        <div className="slider-container">
-          {projects.map(([image, title, place], index) => (
-            <div className={`slides fade ${index === slideIndex ? "active-slide" : ""}`} key={image}>
-              <img src={image} alt={title} />
-              <div className="slide-content">
-                <h3>{title}</h3>
-                <p>{place}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
+      <ProjectGallery />
       <section className="stats-section">
         <SectionHeader tag="OUR ACHIEVEMENTS" title="Numbers That Speak For Us" />
         <div className="stats-container">

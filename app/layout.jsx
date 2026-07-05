@@ -27,18 +27,36 @@ export const metadata = {
     },
   },
   openGraph: {
-    title: "AVK Wire Trades - Fencing in Rajapalayam",
+    title: "AVK Wire Traders - Fencing in Rajapalayam",
     description:
-      "AVK Wire Trades provides high-quality fencing solutions in Rajapalayam. Trusted for durable and affordable wire fencing services.",
+      "AVK Wire Traders provides high-quality fencing solutions in Rajapalayam. Trusted for durable and affordable wire fencing services.",
     type: "website",
     locale: "en_IN",
-    siteName: "AVK Wire Trades",
+    siteName: "AVK Wire Traders",
   },
   twitter: {
     card: "summary",
-    title: "AVK Wire Trades - Fencing in Rajapalayam",
+    title: "AVK Wire Traders - Fencing in Rajapalayam",
     description:
-      "AVK Wire Trades provides high-quality fencing solutions in Rajapalayam. Trusted for durable and affordable wire fencing services.",
+      "AVK Wire Traders provides high-quality fencing solutions in Rajapalayam. Trusted for durable and affordable wire fencing services.",
+    type: "website",
+    locale: "en_IN",
+    siteName: "AVK Wire Traders",
+  },
+  twitter: {
+    card: "summary",
+    title: "AVK Wire Traders - Fencing in Rajapalayam",
+    description:
+      "AVK Wire Traders provides high-quality fencing solutions in Rajapalayam. Trusted for durable and affordable wire fencing services.",
+    type: "website",
+    locale: "en_IN",
+    siteName: "AVK Wire Traders",
+  },
+  twitter: {
+    card: "summary",
+    title: "AVK Wire Traders - Fencing in Rajapalayam",
+    description:
+      "AVK Wire Traders provides high-quality fencing solutions in Rajapalayam. Trusted for durable and affordable wire fencing services.",
   },
   icons: {
     icon: [{ url: "/icon.png", type: "image/png", sizes: "144x144" }],

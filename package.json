@@ -9,8 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "framer-motion": "^12.42.2",
     "next": "^16.2.9",
     "react": "^19.2.7",
-    "react-dom": "^19.2.7"
+    "react-dom": "^19.2.7",
+    "swiper": "^14.0.1",
+    "yet-another-react-lightbox": "^3.32.0"
   }
 }
