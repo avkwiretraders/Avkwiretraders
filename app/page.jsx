@@ -255,19 +255,19 @@ ${message || "-"}`;
 
     {/* FLOATING IMAGES */}
     <div className="about-floating-image about-img-1">
-        <img src="/images/About-us.jpeg" alt="AVK fencing project" />
+        <img src="/images/f1.png" alt="AVK fencing project" />
     </div>
 
     <div className="about-floating-image about-img-2">
-        <img src="/images/fencing-1.jpeg" alt="AVK fencing solution" />
+        <img src="/images/f2.png" alt="AVK fencing solution" />
     </div>
 
     <div className="about-floating-image about-img-3">
-        <img src="/images/fencing-2.jpeg" alt="AVK fencing work" />
+        <img src="/images/f3.png" alt="AVK fencing work" />
     </div>
 
     <div className="about-floating-image about-img-4">
-        <img src="/images/fencing-3.jpeg" alt="AVK fencing project" />
+        <img src="/images/f4.png" alt="AVK fencing project" />
     </div>
 
     <div className="about-content">
