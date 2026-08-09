@@ -45,7 +45,6 @@ const whyUs = [
 ];
 
 export default function Home() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [quotePopup, setQuotePopup] = useState(false);
   useEffect(() => {
  const aboutSection = document.querySelector(".about");
@@ -178,10 +177,10 @@ ${message || "-"}`;
           AVK<span> WireTraders</span>
         </div>
 
-        <ul className={`nav-links ${menuOpen ? "active" : ""}`} id="navLinks">
+        <ul className="nav-links" id="navLinks">
   {["home", "about", "services", "projects", "contact"].map((link) => (
     <li key={link}>
-      <a href={`#${link}`} onClick={() => setMenuOpen(false)}>
+      <a href={`#${link}`}>
         {link.charAt(0).toUpperCase() + link.slice(1)}
       </a>
     </li>
@@ -195,15 +194,7 @@ ${message || "-"}`;
   Get Quote
 </button>
 
-<button
-  className="menu-toggle"
-  type="button"
-  onClick={() => setMenuOpen(!menuOpen)}
-  aria-label="Toggle navigation menu"
-  aria-expanded={menuOpen}
->
-  ☰
-</button>
+
       </nav>
 
       <section id="home" className="hero">
@@ -776,13 +767,17 @@ ${message || "-"}`;
           </div>
         </div>
       </section> */}
-      <section className="founder-section" id="founder">
-    <img
-        src="/images/CEO_FULL.png"
-        alt="AVK Wire Traders Managing Director"
-        className="founder-full-image"
-    />
-</section>
+      <picture className="founder-picture">
+  <source
+    media="(max-width: 768px)"
+    srcSet="/images/CEO_MOBILE.png"
+  />
+
+  <img
+    src="/images/CEO_FULL.png"
+    alt="Mr. N Shanmuga Subramaniam - Founder & Managing Director of AVK Wire Traders"
+  />
+</picture>
 
       <section className="why-us">
         <SectionHeader tag="WHY CHOOSE US" title="Why Customers Trust AVK Wire Traders" />

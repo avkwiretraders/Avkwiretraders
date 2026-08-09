@@ -6451,3 +6451,43 @@ section{
         font-size: 40px !important;
     }
 }
+@media (max-width: 768px) {
+    .nav-links {
+        display: none !important;
+    }
+
+    .nav-links.active {
+        display: flex !important;
+    }
+}
+.menu-toggle {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .about-img-1 {
+        left: 20px !important;
+    }
+}
+
+.founder-picture {
+  display: block;
+  width: 100%;
+}
+
+.founder-picture img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .founder-picture {
+    width: 100%;
+  }
+
+  .founder-picture img {
+    width: 100%;
+    height: auto;
+  }
+}
