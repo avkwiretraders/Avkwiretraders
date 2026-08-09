@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { images, videos } from "./projects";
-import { useRef } from "react";
 import "./ProjectGallery.css";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
@@ -10,78 +9,142 @@ import "yet-another-react-lightbox/styles.css";
 export default function ProjectGallery() {
 
     const [activeTab, setActiveTab] = useState("images");
-
     const [selectedImage, setSelectedImage] = useState(0);
-    const [selectedVideo,setSelectedVideo]=useState(0);
+    const [selectedVideo, setSelectedVideo] = useState(0);
     const [open, setOpen] = useState(false);
-    const [paused, setPaused] = useState(false);
-    const [fade, setFade] = useState(true);
-    const thumbRef = useRef(null);
-    const touchStartX = useRef(0);
+    const dragData = useRef({});
 
-useEffect(() => {
-
-    if (paused) return;
-
-    const interval = setInterval(() => {
-
-        nextImage();
-
-    }, 8000);
-
-    return () => clearInterval(interval);
-
-}, [selectedImage, paused]);
-
-useEffect(() => {
-
-    const handleKeyDown = (event) => {
-
-        if (event.key === "ArrowRight") {
-
-            nextImage();
-
-        }
-
-        if (event.key === "ArrowLeft") {
-
-            prevImage();
-
-        }
-
+const handlePointerDown = (e, rowIndex) => {
+    dragData.current[rowIndex] = {
+        startX: e.clientX,
+        lastX: e.clientX,
+        dragging: false
     };
 
-    window.addEventListener("keydown", handleKeyDown);
+    e.currentTarget.setPointerCapture(e.pointerId);
+};
 
-    return () => {
+const handlePointerMove = (e, rowIndex) => {
+    const data = dragData.current[rowIndex];
 
-        window.removeEventListener("keydown", handleKeyDown);
+    if (!data) return;
 
-    };
+    const movement = e.clientX - data.lastX;
 
+    if (Math.abs(e.clientX - data.startX) > 8) {
+        data.dragging = true;
+    }
+
+    if (data.dragging) {
+        e.currentTarget.scrollLeft -= movement;
+    }
+
+    data.lastX = e.clientX;
+};
+
+const handlePointerUp = (e, rowIndex) => {
+    const data = dragData.current[rowIndex];
+
+    if (!data) return;
+
+    data.dragging = false;
+
+    e.currentTarget.releasePointerCapture?.(e.pointerId);
+};
+    /*
+     * =====================================================
+     * RANDOMIZE PROJECT IMAGES
+     * =====================================================
+     *
+     * The order is randomized once when the component loads.
+     */
+
+    const [galleryImages, setGalleryImages] = useState([]);
+    useEffect(() => {
+    const shuffled = [...images].sort(() => Math.random() - 0.5);
+    setGalleryImages(shuffled);
 }, []);
 
-useEffect(() => {
-    setFade(false);
+    /*
+     * =====================================================
+     * SPLIT INTO EXACTLY 3 ROWS
+     * =====================================================
+     *
+     * 34 images become:
+     *
+     * Row 1 = 12
+     * Row 2 = 11
+     * Row 3 = 11
+     *
+     * If you add/remove images later, the rows
+     * automatically redistribute.
+     */
 
-    const timer = setTimeout(() => {
-        setFade(true);
-    }, 50);
+    const rows = useMemo(() => {
 
-    return () => clearTimeout(timer);
-}, [selectedImage]);
-    const nextImage = () => {
-    setSelectedImage((prev) => (prev + 1) % images.length);
-};
+    const total = galleryImages.length;
 
-const prevImage = () => {
-    setSelectedImage((prev) =>
-        prev === 0 ? images.length - 1 : prev - 1
-    );
-};
+    const base = Math.floor(total / 3);
+
+    const remainder = total % 3;
+
+    const result = [];
+
+    let start = 0;
+
+    for (let i = 0; i < 3; i++) {
+
+        const rowSize =
+            base + (i < remainder ? 1 : 0);
+
+        result.push(
+            galleryImages.slice(
+                start,
+                start + rowSize
+            )
+        );
+
+        start += rowSize;
+    }
+
+    return result;
+
+}, [galleryImages]);
+
+
+    /*
+     * =====================================================
+     * OPEN LIGHTBOX
+     * =====================================================
+     */
+
+    const openImage = (item) => {
+
+        const originalIndex =
+            images.findIndex(
+                (image) => image.id === item.id
+            );
+
+        setSelectedImage(
+            originalIndex >= 0
+                ? originalIndex
+                : 0
+        );
+
+        setOpen(true);
+    };
+
+
     return (
 
-        <section id="projects" className="project-section">
+        <section
+            id="projects"
+            className="project-section"
+        >
+
+            {/* =================================================
+                HEADER
+            ================================================= */}
 
             <div className="project-header">
 
@@ -94,233 +157,271 @@ const prevImage = () => {
                 </h2>
 
                 <p>
-                    Explore our fencing projects completed across
-                    South Tamil Nadu.
+                    Explore our fencing projects completed
+                    across South Tamil Nadu.
                 </p>
 
             </div>
 
+
+            {/* =================================================
+                TABS
+            ================================================= */}
+
             <div className="project-tabs">
 
                 <button
-
-                   className={activeTab === "images" ? "active" : ""}
-
-                    onClick={()=>setActiveTab("images")}
-
+                    className={
+                        activeTab === "images"
+                            ? "active"
+                            : ""
+                    }
+                    onClick={() =>
+                        setActiveTab("images")
+                    }
                 >
-
                     Images
-
                 </button>
 
+
                 <button
-
-                    className={activeTab === "videos" ? "active" : ""}
-
-                    onClick={()=>setActiveTab("videos")}
-
+                    className={
+                        activeTab === "videos"
+                            ? "active"
+                            : ""
+                    }
+                    onClick={() =>
+                        setActiveTab("videos")
+                    }
                 >
-
                     Videos
-
                 </button>
 
             </div>
 
-            {
 
-                activeTab==="images" &&
+            {/* =================================================
+                IMAGE GALLERY
+            ================================================= */}
 
-                <>
-            <div
-    className="featured-image"
-    onMouseEnter={() => setPaused(true)}
-    onMouseLeave={() => setPaused(false)}
-    onTouchStart={(e) => {
-        touchStartX.current = e.touches[0].clientX;
-    }}
-    onTouchEnd={(e) => {
-        const diff =
-            touchStartX.current - e.changedTouches[0].clientX;
+            {activeTab === "images" && (
 
-        if (diff > 60) nextImage();
-        if (diff < -60) prevImage();
-    }}
+                <div className="project-marquee">
+
+                    {rows.map((row, rowIndex) => (
+
+                        <div
+    className={`project-row ${
+        rowIndex % 2 === 0
+            ? "row-left"
+            : "row-right"
+    }`}
+    key={rowIndex}
+    onPointerDown={(e) =>
+        handlePointerDown(e, rowIndex)
+    }
+    onPointerMove={(e) =>
+        handlePointerMove(e, rowIndex)
+    }
+    onPointerUp={(e) =>
+        handlePointerUp(e, rowIndex)
+    }
+    onPointerCancel={(e) =>
+        handlePointerUp(e, rowIndex)
+    }
 >
 
-    <button
-        className="gallery-arrow left-arrow"
-        onClick={prevImage}
-    >
-        ❮
-    </button>
+                            <div className="project-row-track">
 
-    <div className="image-counter">
-        {selectedImage + 1} / {images.length}
-    </div>
+                                {/* FIRST COPY */}
 
-    <img
-    src={images[selectedImage].image}
-    alt={images[selectedImage].title}
-    className={fade ? "fade-in" : "fade-out"}
-    onClick={() => setOpen(true)}
-/>
-    <div className="image-overlay">
+                                {row.map((item) => (
 
-    <h3>{images[selectedImage].title}</h3>
+                                    <div
+                                        className="project-item"
+                                        key={`${rowIndex}-${item.id}-1`}
+                                        onClick={() =>
+                                            openImage(item)
+                                        }
+                                    >
 
-    <p>📍 {images[selectedImage].location}</p>
+                                        <div className="project-image-wrap">
 
-</div>
-    <button
-        className="gallery-arrow right-arrow"
-        onClick={nextImage}
-    >
-        ❯
-    </button>
+                                            <img
+                                                src={item.image}
+                                                alt={item.title}
+                                            />
 
-</div>
-            
+                                            <div className="project-image-overlay">
 
-                    <div className="thumbnail-wrapper">
+                                                <span>
+                                                    VIEW PROJECT
+                                                </span>
 
-    <button
-        className="thumb-arrow left"
-        onClick={() => {
-    const thumb = thumbRef.current.querySelector(".thumb");
-    thumbRef.current.scrollBy({
-        left: -(thumb.offsetWidth + 16),
-        behavior: "smooth",
-    });
-}}
-    >
-        ❮
-    </button>
+                                            </div>
 
-    <div className="thumbnail-row" ref={thumbRef}
->
+                                        </div>
 
-        {images.map((item, index) => (
+                                        <div className="project-item-info">
 
-            <img
-                key={item.id}
-                src={item.image}
-                alt={item.title}
-                onClick={() => setSelectedImage(index)}
-                className={
-                    selectedImage === index
-                        ? "thumb active-thumb"
-                        : "thumb"
-                }
-            />
+                                            <h3>
+                                                {item.title}
+                                            </h3>
 
-        ))}
+                                            <p>
+                                                📍 {item.location}
+                                            </p>
 
-    </div>
+                                        </div>
 
-    <button
-        className="thumb-arrow right"
-       onClick={() => {
-    const thumb = thumbRef.current.querySelector(".thumb");
-    thumbRef.current.scrollBy({
-        left: thumb.offsetWidth + 16,
-        behavior: "smooth",
-    });
-}}
-    >
-        ❯
-    </button>
+                                    </div>
 
-</div>
+                                ))}
 
-                </>
 
-            }
+                                {/* SECOND COPY
+                                    Creates seamless movement
+                                */}
 
-            {
+                                {row.map((item) => (
 
-                activeTab==="videos" &&
+                                    <div
+                                        className="project-item"
+                                        key={`${rowIndex}-${item.id}-2`}
+                                        onClick={() =>
+                                            openImage(item)
+                                        }
+                                    >
+
+                                        <div className="project-image-wrap">
+
+                                            <img
+                                                src={item.image}
+                                                alt={item.title}
+                                            />
+
+                                            <div className="project-image-overlay">
+
+                                                <span>
+                                                    VIEW PROJECT
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div className="project-item-info">
+
+                                            <h3>
+                                                {item.title}
+                                            </h3>
+
+                                            <p>
+                                                📍 {item.location}
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+                                ))}
+
+                            </div>
+
+                        </div>
+
+                    ))}
+
+                </div>
+
+            )}
+
+
+            {/* =================================================
+                VIDEOS
+            ================================================= */}
+
+            {activeTab === "videos" && (
 
                 <div className="video-gallery">
 
-<video
-key={selectedVideo}
-    controls
-    poster={videos[selectedVideo].thumbnail}
-    className="project-video"
->
+                    <video
+                        key={selectedVideo}
+                        controls
+                        poster={
+                            videos[selectedVideo].thumbnail
+                        }
+                        className="project-video"
+                    >
 
-    <source
-        src={videos[selectedVideo].video}
-        type="video/mp4"
-    />
+                        <source
+                            src={
+                                videos[selectedVideo].video
+                            }
+                            type="video/mp4"
+                        />
 
-    Your browser does not support the video tag.
+                        Your browser does not support
+                        the video tag.
 
-</video>
+                    </video>
 
-<div className="video-info">
 
-<h3>
+                    <div className="video-info">
 
-{videos[selectedVideo].title}
+                        <h3>
+                            {videos[selectedVideo].title}
+                        </h3>
 
-</h3>
+                        <p>
+                            📍 {videos[selectedVideo].location}
+                        </p>
 
-<p>
+                    </div>
 
-📍 {videos[selectedVideo].location}
 
-</p>
+                    <div className="video-thumbnails">
 
-</div>
+                        {videos.map((video, index) => (
 
-<div className="video-thumbnails">
+                            <img
+                                key={video.id}
+                                src={video.thumbnail}
+                                alt={video.title}
+                                onClick={() =>
+                                    setSelectedVideo(index)
+                                }
+                                className={
+                                    selectedVideo === index
+                                        ? "video-thumb active-video"
+                                        : "video-thumb"
+                                }
+                            />
 
-{
+                        ))}
 
-videos.map((video,index)=>(
+                    </div>
 
-<img
+                </div>
 
-key={video.id}
+            )}
 
-src={video.thumbnail}
 
-alt={video.title}
+            {/* =================================================
+                LIGHTBOX
+            ================================================= */}
 
-onClick={()=>setSelectedVideo(index)}
-
-className={
-selectedVideo===index
-?
-"video-thumb active-video"
-:
-"video-thumb"
-}
-
-/>
-
-))
-
-}
-
-</div>
-
-</div>
-
-            }
             <Lightbox
-    open={open}
-    close={() => setOpen(false)}
-    index={selectedImage}
-    slides={images.map((item) => ({
-        src: item.image,
-    }))}
-/>
+                open={open}
+                close={() => setOpen(false)}
+                index={selectedImage}
+                slides={images.map((item) => ({
+                    src: item.image,
+                    alt: item.title,
+                }))}
+            />
+
         </section>
 
     );
-
 }

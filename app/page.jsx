@@ -46,8 +46,41 @@ const whyUs = [
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [quotePopup, setQuotePopup] = useState(false);
+  useEffect(() => {
+ const aboutSection = document.querySelector(".about");
+
+    if (!aboutSection) return;
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+
+            entries.forEach((entry) => {
+
+                if (entry.isIntersecting) {
+
+                    aboutSection.classList.add("in-view");
+
+                    observer.unobserve(aboutSection);
+                }
+
+            });
+
+        },
+        {
+            threshold: 0.25
+        }
+    );
+
+    observer.observe(aboutSection);
+
+    return () => {
+        observer.disconnect();
+    };
+}, []);
   const [showTop, setShowTop] = useState(false);
   const [counts, setCounts] = useState(stats.map(() => 0));
+  const [showAllAreas, setShowAllAreas] = useState(false);
   const year = new Date().getFullYear();
 
   useEffect(() => {
@@ -71,6 +104,40 @@ export default function Home() {
 
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+  
+  useEffect(() => {
+  const hero = document.querySelector(".hero");
+
+  if (!hero) return;
+
+  const updateHeroFence = () => {
+    const rect = hero.getBoundingClientRect();
+    const heroHeight = hero.offsetHeight;
+
+    const progress = Math.min(
+      1,
+      Math.max(
+        0,
+        -rect.top / (heroHeight - window.innerHeight)
+      )
+    );
+
+    hero.style.setProperty(
+      "--fence-progress",
+      progress.toString()
+    );
+  };
+
+  window.addEventListener("scroll", updateHeroFence, {
+    passive: true,
+  });
+
+  updateHeroFence();
+
+  return () => {
+    window.removeEventListener("scroll", updateHeroFence);
+  };
+}, []);
 
   const sendToWhatsApp = (event) => {
     event.preventDefault();
@@ -112,182 +179,582 @@ ${message || "-"}`;
         </div>
 
         <ul className={`nav-links ${menuOpen ? "active" : ""}`} id="navLinks">
-          {["home", "about", "services", "projects", "contact"].map((link) => (
-            <li key={link}>
-              <a href={`#${link}`} onClick={() => setMenuOpen(false)}>
-                {link.charAt(0).toUpperCase() + link.slice(1)}
-              </a>
-            </li>
-          ))}
-        </ul>
+  {["home", "about", "services", "projects", "contact"].map((link) => (
+    <li key={link}>
+      <a href={`#${link}`} onClick={() => setMenuOpen(false)}>
+        {link.charAt(0).toUpperCase() + link.slice(1)}
+      </a>
+    </li>
+  ))}
+</ul>
 
-        <a href="#quote-section" className="quote-btn">
-          Get Quote
-        </a>
+<button
+  className="quote-btn"
+  onClick={() => setQuotePopup(true)}
+>
+  Get Quote
+</button>
 
-        <button
-          className="menu-toggle"
-          type="button"
-          onClick={() => setMenuOpen((open) => !open)}
-          aria-label="Toggle menu"
-        >
-          <i className="fas fa-bars" />
-        </button>
+<button
+  className="menu-toggle"
+  type="button"
+  onClick={() => setMenuOpen(!menuOpen)}
+  aria-label="Toggle navigation menu"
+  aria-expanded={menuOpen}
+>
+  ☰
+</button>
       </nav>
 
       <section id="home" className="hero">
-        <div className="hero-content">
-          <p className="tagline">RAJAPALAYAM&apos;S TRUSTED FENCING EXPERTS SINCE 2013</p>
-          <h1>
-            Premium Fencing
-            <br />
-            <span>& Fencing Products</span>
-          </h1>
-          <p>
-            Supplying quality fencing materials and providing professional installation services across Rajapalayam and
-            surrounding areas.
-          </p>
-          <div className="hero-buttons">
-            <a href="#quote-section" className="btn1">
-              Get Quote
-            </a>
-            <a href="#services" className="btn2">
-              Our Services
-            </a>
-          </div>
-        </div>
-      </section>
+
+  <div className="hero-bg-lines"></div>
+
+  <div className="hero-content">
+
+    <p className="tagline">
+      RAJAPALAYAM&apos;S TRUSTED FENCING EXPERTS
+    </p>
+
+    <h1>
+      STRONGER SECURITY.
+      <br />
+      <span>LASTING TRUST.</span>
+    </h1>
+
+    <p className="hero-description">
+      High quality fencing solutions for homes, farms,
+      industries &amp; beyond.
+      <br />
+      Built with strength. Installed with trust.
+      <br />
+      Secured for years.
+      
+    </p>
+    
+
+    <div className="hero-buttons">
+
+      <a href="#services" className="btn1">
+        OUR SERVICES
+        <span>→</span>
+      </a>
+
+      <a href="#quote-section" className="btn2">
+        GET A QUOTE
+        <span>→</span>
+      </a>
+
+    </div>
+
+  </div>
+
+  {/* FENCE POP-UP LAYER */}
+  <div className="hero-fence-wrap">
+    <img
+      src="/images/hero-fence.png"
+      alt="AVK Wire Traders fencing installation"
+      className="hero-fence"
+    />
+  </div>
+
+</section>
 
       <section id="about" className="about">
-        <div className="about-image">
-          <img src="/images/About-us.jpeg" alt="AVK Wire Traders" />
-        </div>
-        <div className="about-content">
-          <p className="section-tag">ABOUT US</p>
-          <h2>Trusted Fencing Solutions For Every Need</h2>
-          <p>
-            AVK Wire Traders provides high-quality fencing solutions for residential, agricultural, commercial, and
-            industrial properties. With years of experience and a commitment to quality, we ensure durability, security,
-            and customer satisfaction in every project.
-          </p>
-          <div className="about-stats">
-            <div className="stat-box">
-              <h3>350+</h3>
-              <p>Projects</p>
-            </div>
-            <div className="stat-box">
-              <h3>14+</h3>
-              <p>Years Experience</p>
-            </div>
-            <div className="stat-box">
-              <h3>1000+</h3>
-              <p>Happy Clients</p>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      <section id="services" className="services">
-        <SectionHeader tag="OUR SERVICES" title="Professional Fencing Services" />
-        <div className="services-container">
-          {services.map(([icon, title, text]) => (
-            <div className="service-card" key={title}>
-              <i className={icon} />
-              <h3>{title}</h3>
-              <p>{text}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+    {/* FLOATING IMAGES */}
+    <div className="about-floating-image about-img-1">
+        <img src="/images/About-us.jpeg" alt="AVK fencing project" />
+    </div>
 
-      <section className="fencing-types">
-        <SectionHeader tag="TYPES OF FENCING" title="Fencing Solutions For Every Requirement" />
-        <div className="fence-grid">
-          {fenceTypes.map(([image, title]) => (
-            <div className="fence-card" key={title}>
-              <img src={image} alt={title} />
-              <div className="fence-overlay">
-                <h3>{title}</h3>
-                <a href="#quote-section">
-                  <button className="quote-overlay-btn" type="button">
-                    Get Quote
-                  </button>
-                </a>
-              </div>
-            </div>
-          ))}
+    <div className="about-floating-image about-img-2">
+        <img src="/images/fencing-1.jpeg" alt="AVK fencing solution" />
+    </div>
+
+    <div className="about-floating-image about-img-3">
+        <img src="/images/fencing-2.jpeg" alt="AVK fencing work" />
+    </div>
+
+    <div className="about-floating-image about-img-4">
+        <img src="/images/fencing-3.jpeg" alt="AVK fencing project" />
+    </div>
+
+    <div className="about-content">
+
+        <p className="section-tag">
+            ABOUT US
+        </p>
+
+        <h2>
+            TRUSTED FENCING
+            <br />
+            SOLUTION
+            <br />
+            FOR EVERY NEED.
+        </h2>
+
+        <p className="about-description">
+            AVK Wire Traders provides high-quality fencing solutions for
+            residential, agricultural, commercial, and industrial properties.
+            With years of experience and a commitment to quality, we ensure
+            durability, security, and customer satisfaction in every project.
+        </p>
+
+    </div>
+
+</section>
+
+
+      {/* =========================================================
+    SERVICES SHOWCASE
+========================================================= */}
+
+<section id="services" className="services-showcase">
+
+    <div className="services-showcase-header">
+        <p className="services-showcase-tag">
+            OUR SERVICES
+        </p>
+
+        <h2>
+            FENCING SERVICES
+        </h2>
+    </div>
+
+
+    <div className="services-showcase-grid">
+
+    <a href="#quote-section" className="showcase-service">
+        <span className="service-number">01</span>
+
+        <div className="showcase-image">
+            <img
+                src="/images/Chain-Link.png"
+                alt="Chain Link Fencing"
+            />
         </div>
-      </section>
+
+        <h3>CHAIN LINK FENCING</h3>
+    </a>
+
+
+    <a href="#quote-section" className="showcase-service">
+        <span className="service-number">02</span>
+
+        <div className="showcase-image">
+            <img
+                src="/images/Weld-Mesh.png"
+                alt="Weld Mesh Fencing"
+            />
+        </div>
+
+        <h3>WELD MESH FENCING</h3>
+    </a>
+
+
+    <a href="#quote-section" className="showcase-service">
+        <span className="service-number">03</span>
+
+        <div className="showcase-image">
+            <img
+                src="/images/fence-1.png"
+                alt="Agricultural Fencing"
+            />
+        </div>
+
+        <h3>AGRICULTURAL FENCING</h3>
+    </a>
+
+
+    <a href="#quote-section" className="showcase-service">
+        <span className="service-number">04</span>
+
+        <div className="showcase-image">
+            <img
+                src="/images/Barbed-Wire.png"
+                alt="Industrial Fencing"
+            />
+        </div>
+
+        <h3>INDUSTRIAL FENCING</h3>
+    </a>
+
+
+    <a href="#quote-section" className="showcase-service">
+        <span className="service-number">05</span>
+
+        <div className="showcase-image">
+            <img
+                src="/images/gate-Fixing.jpeg"
+                alt="Fence Installation"
+            />
+        </div>
+
+        <h3>FENCE INSTALLATION</h3>
+    </a>
+
+
+    <a href="#quote-section" className="showcase-service">
+        <span className="service-number">06</span>
+
+        <div className="showcase-image">
+            <img
+                src="/images/fencing-1.jpeg"
+                alt="Maintenance and Repair"
+            />
+        </div>
+
+        <h3>MAINTENANCE & REPAIR</h3>
+    </a>
+
+</div>
+
+</section>
       <ProjectGallery />
-      <section className="stats-section">
-        <SectionHeader tag="OUR ACHIEVEMENTS" title="Numbers That Speak For Us" />
-        <div className="stats-container">
-          {stats.map(([target, label], index) => (
-            <div className="stat-card" key={label}>
-              <h3>{counts[index] >= target ? `${target}+` : counts[index]}</h3>
-              <p>{label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      {/* =========================================================
+    ACHIEVEMENTS
+========================================================= */}
 
-      <section id="quote-section" className="quote-section">
-        <div className="section-header">
-          <p className="section-tag">GET A QUOTE</p>
-          <h2>Request A Free Quote</h2>
-          <p className="quote-subtitle">Tell us your requirements and our team will contact you shortly.</p>
+<section id="achievements" className="achievements">
+
+    <div className="achievements-header">
+
+        <p className="achievements-tag">
+            OUR ACHIEVEMENTS
+        </p>
+
+        <h2>
+            Numbers That Speak For Us
+        </h2>
+
+    </div>
+
+
+    <div className="achievement-grid">
+
+        <div className="achievement-card">
+            <span className="achievement-number">
+                350+
+            </span>
+
+            <p>
+                Projects Completed
+            </p>
         </div>
-        <div className="quote-container">
-          <form className="quote-form" onSubmit={sendToWhatsApp}>
-            <input name="name" type="text" placeholder="Full Name" required />
-            <input name="phone" type="tel" placeholder="Phone Number" required />
-            <input name="location" type="text" placeholder="Location" required />
-            <select name="fenceType" required defaultValue="">
-              <option value="">Select Fence Type</option>
-              <option>Chain Link Fence</option>
-              <option>Barbed Wire Fence</option>
-              <option>Farm Fencing</option>
-              <option>Security Fencing</option>
-              <option>Weld Mesh Fence</option>
-              <option>Others</option>
-            </select>
-            <input name="length" type="number" placeholder="Approximate Length (Feet)" />
-            <textarea name="message" rows="5" placeholder="Additional Requirements" />
-            <button type="submit">Request Quote</button>
-          </form>
+
+
+        <div className="achievement-card">
+            <span className="achievement-number">
+                1000+
+            </span>
+
+            <p>
+                Happy Clients
+            </p>
         </div>
-      </section>
+
+
+        <div className="achievement-card">
+            <span className="achievement-number">
+                14+
+            </span>
+
+            <p>
+                Years Experience
+            </p>
+        </div>
+
+
+        <div className="achievement-card">
+            <span className="achievement-number">
+                25+
+            </span>
+
+            <p>
+                Service Areas
+            </p>
+        </div>
+
+    </div>
+
+</section>
+<section id="quote-section" className="quote-section">
+
+    <div className="quote-header">
+
+        <p className="section-tag">
+            GET A QUOTE
+        </p>
+
+        <h2>
+            REQUEST A FREE QUOTE
+        </h2>
+
+        <p>
+            Tell us your fencing requirements and our team
+            will get in touch with you shortly.
+        </p>
+
+    </div>
+
+
+    <div className="quote-container">
+
+        {/* ================= VIDEO ================= */}
+
+        <div className="quote-video">
+
+            <video
+                src="/videos/fencing-quote.mp4"
+                autoPlay
+                muted
+                loop
+                playsInline
+            />
+
+            <div className="quote-video-overlay">
+
+                <h4>AVK WIRE TRADERS</h4>
+
+            </div>
+
+        </div>
+
+
+        {/* ================= FORM ================= */}
+
+        <div className="quote-form-card">
+
+            <p className="quote-form-tag">
+                REQUEST A QUOTE
+            </p>
+
+            <h3>
+                Tell Us About Your Requirement
+            </h3>
+
+
+            <form
+                className="quote-form"
+                onSubmit={sendToWhatsApp}
+            >
+
+                <div className="quote-form-grid">
+
+                    <div className="quote-field">
+
+                        <label>Name *</label>
+
+                        <input
+                            name="name"
+                            type="text"
+                            placeholder="Full Name"
+                            required
+                        />
+
+                    </div>
+
+
+                    <div className="quote-field">
+
+                        <label>Phone Number *</label>
+
+                        <input
+                            name="phone"
+                            type="tel"
+                            placeholder="Phone Number"
+                            required
+                        />
+
+                    </div>
+
+
+                    <div className="quote-field">
+
+                        <label>Location *</label>
+
+                        <input
+                            name="location"
+                            type="text"
+                            placeholder="Location"
+                            required
+                        />
+
+                    </div>
+
+
+                    <div className="quote-field">
+
+                        <label>Fence Type *</label>
+
+                        <select
+                            name="fenceType"
+                            required
+                            defaultValue=""
+                        >
+
+                            <option value="">
+                                Select Fence Type
+                            </option>
+
+                            <option>
+                                Chain Link Fence
+                            </option>
+
+                            <option>
+                                Barbed Wire Fence
+                            </option>
+
+                            <option>
+                                Farm Fencing
+                            </option>
+
+                            <option>
+                                Security Fencing
+                            </option>
+
+                            <option>
+                                Weld Mesh Fence
+                            </option>
+
+                            <option>
+                                Others
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div className="quote-field">
+
+                        <label>
+                            Approximate Length
+                        </label>
+
+                        <input
+                            name="length"
+                            type="number"
+                            placeholder="Approx. Length (Feet)"
+                        />
+
+                    </div>
+
+
+                    <div className="quote-field quote-field-full">
+
+                        <label>
+                            Additional Requirements
+                        </label>
+
+                        <textarea
+                            name="message"
+                            rows="5"
+                            placeholder="Tell us about your fencing requirement..."
+                        />
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    className="quote-submit"
+                >
+
+                    SUBMIT QUOTE
+
+                    <span>→</span>
+
+                </button>
+
+
+                <p className="quote-note">
+                    Your request will be sent directly to
+                    AVK Wire Traders through WhatsApp.
+                </p>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
 
       <section className="service-areas" id="service-areas">
-        <p className="section-tag">SERVICE AREAS</p>
-        <h2>Serving Communities Across South Tamil Nadu</h2>
+        <div className="area-heading">
+          <p className="section-tag">SERVICE AREAS</p>
+          <h2>Serving Communities Across South Tamil Nadu</h2>
+        </div>
+
         <div className="areas-grid">
-          {areas.map(([name, label, image]) => (
-            <div className="area-card" key={name}>
+          {areas.map(([name, label, image], index) => (
+            <div
+              className={`area-card area-card-${index % 3} ${index > 2 && !showAllAreas ? "area-hidden" : ""}`}
+              key={name}
+            >
+              <div className="area-image">
+                <img src={image} alt={name} />
+              </div>
               <div className="area-info">
                 <h3>{name}</h3>
                 {label && <p>{label}</p>}
               </div>
-              <div className="area-image">
-                <img src={image} alt={name} />
-              </div>
             </div>
           ))}
         </div>
+
+        {areas.length > 3 && (
+          <button
+            className="view-areas-btn"
+            type="button"
+            onClick={() => setShowAllAreas((open) => !open)}
+          >
+            {showAllAreas ? "Show Less Areas" : "View All Service Areas"}
+            <i className={`fas fa-arrow-${showAllAreas ? "up" : "right"}`} />
+          </button>
+        )}
       </section>
 
-      <section id="contact" className="quick-contact">
-        <ContactCard icon="fas fa-phone" title="Call Us" text="+91 95858 44459" href="tel:+919585844459" />
-        <ContactCard icon="fab fa-whatsapp" title="WhatsApp" text="Chat Instantly" href="https://wa.me/9585844459" />
-        <ContactCard icon="fas fa-location-dot" title="Location" text="Rajapalayam, Tamil Nadu" />
-        <ContactCard icon="fas fa-clock" title="Working Hours" text="9:00 AM - 6:00 PM" />
-      </section>
+  <section id="contact" className="quick-contact">
 
-      <section className="founder-section">
+  <ContactCard
+    extraClass="contact-white"
+    icon="fas fa-phone"
+    title="Call Us"
+    text="+91 95858 44459"
+    href="tel:+919585844459"
+  />
+
+  <ContactCard
+    extraClass="contact-red"
+    icon="fab fa-whatsapp"
+    title="WhatsApp"
+    text="Chat Instantly"
+    href="https://wa.me/9585844459"
+  />
+
+  <ContactCard
+    extraClass="contact-yellow"
+    icon="fas fa-location-dot"
+    title="Location"
+    text="Rajapalayam, Tamil Nadu"
+    href="https://www.google.com/maps/place/Fencing+Contractor+in+Rajapalayam+-+Avk+WireTraders/@9.4267168,77.5139979,1079m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3b06e98ed068cd0f:0x18af87027fc37ff0!8m2!3d9.4267115!4d77.5165782!16s%2Fg%2F11nqf9ljy8"
+  />
+
+  <ContactCard
+    extraClass="contact-brown"
+    icon="fas fa-clock"
+    title="Working Hours"
+    text="9:00 AM - 6:00 PM"
+    href="https://share.google/nleytx1YHO4JRLPbu"
+  />
+
+</section>
+      {/* <section className="founder-section">
         <div className="founder-container">
-          <div className="founder-image">
-            <img src="/images/CEO.png" alt="Founder" />
-          </div>
           <div className="founder-content">
             <h4>FOUNDER & MANAGING DIRECTOR</h4>
             <h2>Mr. N SHANMUGA SUBRAMANIAM</h2>
@@ -304,8 +771,18 @@ ${message || "-"}`;
               Wire Traders become a trusted name in fencing solutions for more than 14 years.
             </p>
           </div>
+          <div className="founder-image">
+            <img src="/images/CEO.png" alt="Founder" />
+          </div>
         </div>
-      </section>
+      </section> */}
+      <section className="founder-section" id="founder">
+    <img
+        src="/images/CEO_FULL.png"
+        alt="AVK Wire Traders Managing Director"
+        className="founder-full-image"
+    />
+</section>
 
       <section className="why-us">
         <SectionHeader tag="WHY CHOOSE US" title="Why Customers Trust AVK Wire Traders" />
@@ -319,8 +796,20 @@ ${message || "-"}`;
           ))}
         </div>
       </section>
-
+          <section className="footer-video-section">
+    <video
+        className="footer-video"
+        autoPlay
+        muted
+        loop
+        playsInline
+    >
+        <source src="/videos/avk-fencing.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+    </video>
+</section>
       <footer className="footer">
+        <div className="footer-pattern" aria-hidden="true" />
         <div className="footer-container">
           <div className="footer-box">
             <h2>AVK Wire Traders</h2>
@@ -346,8 +835,24 @@ ${message || "-"}`;
             <p>Location: Rajapalayam, Tamil Nadu</p>
           </div>
         </div>
+        <div className="developer-credit">
+        <a
+          href="https://www.linkedin.com/in/ganesh-b-p-baa058367/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+        <img
+          src="/images/GaneshSignature.png"
+        alt="Designed & Developed by Ganesh"
+        />
+        </a>
+      </div>
+        <div className="footer-brand" aria-label="AVK Wire Traders">
+          <span>AVK</span>
+          <span>Wire Traders</span>
+        </div>
         <div className="footer-bottom">
-          <p>Copyright {year} AVK Wire Traders. All Rights Reserved.</p>
+          <p>© Copyright {year} AVK Wire Traders. All Rights Reserved.</p>
         </div>
       </footer>
 
@@ -365,6 +870,41 @@ ${message || "-"}`;
       >
         ↑
       </button>
+      {quotePopup && (
+  <div
+    className="quote-overlay"
+    onClick={() => setQuotePopup(false)}
+  >
+    <div
+      className="quote-popup"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <button
+        className="quote-close"
+        onClick={() => setQuotePopup(false)}
+      >
+        × Close
+      </button>
+
+      <a
+        href="tel:+919585844459"
+        className="quote-option call-option"
+      >
+        <span>📞</span>
+        <strong>Call Us</strong>
+      </a>
+
+      <a
+        href="#quote-section"
+        className="quote-option whatsapp-option"
+        onClick={() => setQuotePopup(false)}
+      >
+        <span className="fab fa-whatsapp" />
+        <strong>Get a Quote</strong>
+      </a>
+    </div>
+  </div>
+)}
     </>
   );
 }
@@ -378,17 +918,34 @@ function SectionHeader({ tag, title }) {
   );
 }
 
-function ContactCard({ icon, title, text, href }) {
-  const content = (
-    <>
-      <i className={icon} />
-      <h3>{title}</h3>
-      <p>{text}</p>
-    </>
-  );
+function ContactCard({ icon, title, text, href, extraClass = "" }) {
+    const content = (
+        <>
+            <i className={icon} />
+            <h3>{title}</h3>
+            <p>{text}</p>
+        </>
+    );
+
+    return (
+        <div className={`contact-card ${extraClass}`}>
+            {href ? (
+                <a
+                    href={href}
+                    target={href.startsWith("http") ? "_blank" : undefined}
+                    rel="noreferrer"
+                >
+                    {content}
+                </a>
+            ) : (
+                content
+            )}
+        </div>
+    );
+
 
   return (
-    <div className="contact-card">
+    <div className={`contact-card ${extraClass}`}>
       {href ? (
         <a href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
           {content}
@@ -399,3 +956,4 @@ function ContactCard({ icon, title, text, href }) {
     </div>
   );
 }
+
