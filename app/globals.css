@@ -355,7 +355,7 @@ body{
 
     padding:100px 8%;
 
-    background:#0F0B0B;
+    background:#f6e8df;;
 
     text-align:center;
 }
@@ -4189,7 +4189,7 @@ section{
 
     padding: 110px 5% 130px;
 
-    background: #f4c400;
+    background:#984132;
 
     overflow: hidden;
 
@@ -4217,7 +4217,7 @@ section{
 
     letter-spacing: 5px;
 
-    color: #7a1d0c;
+    color: #FAE9DF;;
 }
 
 
@@ -4232,7 +4232,7 @@ section{
 
     letter-spacing: -5px;
 
-    color: #64170c;
+    color: #FAE9DF;
 
     text-transform: uppercase;
 }
@@ -4295,7 +4295,7 @@ section{
 .showcase-service:hover {
     transform: translateY(-8px);
 
-    background: rgba(255, 230, 60, 0.35);
+    background: rgba(250, 233, 223, 0.12);
 }
 
 
@@ -4356,9 +4356,8 @@ section{
 
     border-radius: 22px;
 
-    background: rgba(255, 225, 40, 0.25);
-
-    border: 2px solid rgba(91, 23, 13, 0.35);
+    background: rgba(250, 233, 223, 0.18);
+    border: 2px solid #FAE9DF;
 
     box-shadow:
         0 8px 0 rgba(91, 23, 13, 0.10),
@@ -4407,7 +4406,7 @@ section{
 
     letter-spacing: 0.4px;
 
-    color: #64170c;
+    color: #FAE9DF;
 
     transition:
         color 0.3s ease,
@@ -4423,7 +4422,7 @@ section{
 
     transform: translateY(-5px);
 
-    border-color: #64170c;
+    border-color: #FAE9DF;
 
     box-shadow:
         0 10px 0 rgba(91, 23, 13, 0.15),
@@ -4439,7 +4438,7 @@ section{
 
 .showcase-service:hover h3 {
 
-    color: #ff3b20;
+    color: #FAE9DF;
 
     transform: translateY(-2px);
 }
@@ -4452,6 +4451,12 @@ section{
 .showcase-service:active {
 
     transform: scale(0.97);
+}
+.showcase-service:active .showcase-image {
+    border-color: #FAE9DF;
+    box-shadow:
+        0 0 0 3px rgba(250, 233, 223, 0.45),
+        0 15px 35px rgba(250, 233, 223, 0.18);
 }
 
 /* =========================================================
