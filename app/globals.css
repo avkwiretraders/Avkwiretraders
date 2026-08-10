@@ -1712,18 +1712,18 @@ section{
     justify-content:center;
     margin:50px 0 20px;
 }
-
 .developer-credit img{
-    width:520px;
+    width:500px;
     max-width:90%;
     opacity:.9;
     transition:.3s ease;
     cursor:pointer;
+    
 }
 
 .developer-credit img:hover{
     opacity:1;
-    transform:scale(1.03);
+    transform:scale(1.13);
 }
 
 
@@ -4324,7 +4324,7 @@ section{
 
     background: #64170c;
 
-    color: #f4c400;
+    color: #EDE8D0;
 
     font-size: 13px;
 
@@ -6521,4 +6521,35 @@ section{
         height: 200% !important;
         object-position: 80% bottom !important;
     }
+}
+
+/* ================================
+   FENCING SERVICES COLOR UPDATE
+   ================================ */
+
+/* OUR SERVICES / FENCING SERVICES heading */
+.fencing-types .section-tag,
+.services .section-tag {
+    color: #FFD000 !important;
+}
+
+/* FENCING SERVICES main heading */
+.fencing-types h2,
+.services h2 {
+    color: #034b3b !important;
+}
+
+/* Fencing card border */
+.fence-card {
+    border: 2px solid #034b3b !important;
+}
+
+/* Fencing name below the image */
+.fence-overlay h3 {
+    color: #FFD000 !important;
+}
+
+/* Number circle */
+.fence-card::before {
+    color: #FFD000;
 }
